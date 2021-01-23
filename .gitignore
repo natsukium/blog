@@ -474,3 +474,6 @@ yarn-error.log*
 .vercel
 
 /pages/
+
+# yarn v2
+.yarn
