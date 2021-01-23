@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "blog",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,5 +11,8 @@
     "next": "10.0.5",
     "react": "17.0.1",
     "react-dom": "17.0.1"
+  },
+  "devDependencies": {
+    "serve": "^11.3.2"
   }
 }
