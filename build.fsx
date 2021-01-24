@@ -40,10 +40,6 @@ Target.create
     "Transpile"
     (fun _ ->
         let cmd = "fable src -o build"
-
-        let currentDir =
-            System.IO.Directory.GetCurrentDirectory()
-
         dotnet cmd currentDir)
 
 let resolve () =
@@ -78,18 +74,8 @@ Target.create
     (fun _ ->
         let projectFile = Path.getFullName "./src/App.fsproj"
 
-        let currentDir =
-            System.IO.Directory.GetCurrentDirectory()
-
         let cmd =
             sprintf "watch --project %s fable -o ../build" projectFile
-
-        let dotnet cmd workDir =
-            let result =
-                DotNet.exec (DotNet.Options.withWorkingDirectory workDir) cmd ""
-
-            if result.ExitCode <> 0 then
-                failwithf "'dotnet %s' failed" cmd
 
         let yarnDev =
             lazy (Yarn.exec "dev" (fun w -> { w with WorkingDirectory = currentDir }))
@@ -100,22 +86,9 @@ Target.create
                     !! "build/**/*.js"
                     |> ChangeWatcher.run
                         (fun changes ->
-                            Directory.create "build/pages"
-                            Shell.copyDir "pages" "build/pages" (fun _ -> true)
-
+                            copy ()
                             printfn "%A" changes
-
-                            !! "pages/**/*.js"
-                            |> Shell.regexReplaceInFilesWithEncoding
-                                @"import { (?<obj>(\w+,?\s?)+) } from ""(?<relpath>(\.\.\/)+)"
-                                @"import { ${obj} } from ""${relpath}build/"
-                                System.Text.Encoding.UTF8
-
-                            !! "pages/**/*.js"
-                            |> Shell.regexReplaceInFilesWithEncoding
-                                @"import ""\.\.\/(?<relpath>(\.\.\/)*[\w/]+\.css)"
-                                @"import ""${relpath}"
-                                System.Text.Encoding.UTF8)
+                            resolve ())
 
                  System.Console.ReadLine() |> ignore
 
