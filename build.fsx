@@ -121,6 +121,11 @@ Target.create
 
                  watcher.Dispose())
 
+        // if there is not `pages_app.js` at the start, the dev server does not detect it
+        dotnet "fable src -o build" currentDir
+        copy ()
+        resolve ()
+
         [ async { dotnet cmd currentDir }
           async { yarnDev.Force() }
           async { watch.Force() } ]
