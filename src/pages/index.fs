@@ -6,7 +6,7 @@ open Zanaptak.TypedCssClasses
 
 open Next
 
-type Style = CssClasses<"../static/styles/Home.module.css">
+type Style = CssClasses<"../static/styles/tailwind.css">
 
 [<ReactComponent>]
 let Card
@@ -26,7 +26,7 @@ let Home () =
                                       Html.link [ prop.rel "icon"
                                                   prop.href "/favicon.ico" ]
                                       Html.link [ prop.rel "stylesheet"
-                                                  prop.href "/static/styles/Home.module.css" ] ]
+                                                  prop.href "/static/styles/tailwind.css" ] ]
                                Html.main [ prop.className [ Style.main ]
                                            prop.children [ Html.h1 [ prop.className [ Style.title ]
                                                                      prop.children [ Html.text "Welcom to "

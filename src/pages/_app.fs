@@ -3,8 +3,7 @@ module Init
 open Fable.Core.JsInterop
 open Feliz
 
-importSideEffects "../../static/styles/globals.css"
-
+importSideEffects "../../static/styles/tailwind.css"
 
 [<ReactComponent>]
 let MyApp
