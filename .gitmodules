@@ -1,0 +1,3 @@
+[submodule "blog-post"]
+	path = post
+	url = git@github.com:natsukium/blog-post.git
