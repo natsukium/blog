@@ -9,6 +9,11 @@ open Markdown
 let postsDirectory =
     path.join (``process``.cwd (), "post/posts")
 
+let parseFrontMatter (path: string) =
+    let mutable fileContents = toVfile?readSync path
+    vfileMatter fileContents |> ignore
+    JS.JSON.parse (JS.JSON.stringify fileContents?data?matter)
+
 let getSortedPostsData () =
     fs.readdirSync (U2.Case1 postsDirectory)
     |> Seq.cast
@@ -17,7 +22,19 @@ let getSortedPostsData () =
         (fun (fileName: string) ->
             let id = fileName.Replace(".md", "")
             let fullPath = path.join (postsDirectory, fileName)
-            let mutable fileContents = toVfile?readSync fullPath
-            vfileMatter fileContents |> ignore
-            JS.Constructors.Object.assign ({| id = id |}, JS.JSON.parse (JS.JSON.stringify fileContents?data?matter)))
+            JS.Constructors.Object.assign ({| id = id |}, parseFrontMatter fullPath))
     |> Array.sortBy (fun x -> x?id)
+
+let getAllPostIdsSlugs () =
+    getSortedPostsData ()
+    |> Array.map
+        (fun (matter: obj) ->
+            {| ``params`` =
+                   {| id = (matter?id: string)
+                      slug = (matter?slug: string) |} |})
+
+let getPostData id =
+    let fullPath =
+        path.join (postsDirectory, sprintf "%s.md" id)
+
+    JS.Constructors.Object.assign ({| id = id |}, parseFrontMatter fullPath)
