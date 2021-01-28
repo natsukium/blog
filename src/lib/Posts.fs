@@ -23,7 +23,7 @@ let getSortedPostsData () =
             let id = fileName.Replace(".md", "")
             let fullPath = path.join (postsDirectory, fileName)
             JS.Constructors.Object.assign ({| id = id |}, parseFrontMatter fullPath))
-    |> Array.sortBy (fun x -> x?id)
+    |> Array.sortByDescending (fun x -> x?id)
 
 let getAllPostIdsSlugs () =
     getSortedPostsData ()
