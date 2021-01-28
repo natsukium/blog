@@ -10,8 +10,8 @@ let postsDirectory =
     path.join (``process``.cwd (), "post/posts")
 
 let parseFrontMatter (path: string) =
-    let mutable fileContents = toVfile?readSync path
-    vfileMatter fileContents |> ignore
+    let mutable fileContents: obj = toVfile?readSync path
+    Vfile.Matter fileContents
     JS.JSON.parse (JS.JSON.stringify fileContents?data?matter)
 
 let getSortedPostsData () =
@@ -37,4 +37,10 @@ let getPostData id =
     let fullPath =
         path.join (postsDirectory, sprintf "%s.md" id)
 
-    JS.Constructors.Object.assign ({| id = id |}, parseFrontMatter fullPath)
+    let mutable fileContents: obj = toVfile?readSync fullPath
+
+    Vfile.Matter(fileContents, createObj [ "strip" ==> true ])
+
+    let contents = string fileContents?contents
+
+    JS.Constructors.Object.assign ({| id = id; contents = contents |}, parseFrontMatter fullPath)
