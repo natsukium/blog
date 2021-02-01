@@ -113,7 +113,7 @@ Target.create
     (fun _ ->
 
         Yarn.exec
-            "dlx tailwindcss-cli@latest build static/styles/style.css -o static/styles/tailwind.css"
+            "dlx tailwindcss-cli@latest build public/static/styles/style.css -o public/static/styles/tailwind.css"
             (fun w -> { w with WorkingDirectory = currentDir }))
 
 Target.create "All" ignore

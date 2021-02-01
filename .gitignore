@@ -479,5 +479,5 @@ yarn-error.log*
 .yarn
 
 # Tailwind CSS
-/static/styles/tailwind.css
+/public/static/styles/tailwind.css
 tailwind.config.js

@@ -1,12 +1,11 @@
-﻿module App
+module App
 
 open Fable.Core.JsInterop
 open Feliz
 open Zanaptak.TypedCssClasses
 
 open Next
-
-type Style = CssClasses<"../static/styles/tailwind.css">
+open Style
 
 [<ReactComponent>]
 let Card
@@ -24,9 +23,7 @@ let Home () =
     Html.div [ prop.className [ Style.container ]
                prop.children [ Head [ Html.title (Html.text "Create Next App with F#")
                                       Html.link [ prop.rel "icon"
-                                                  prop.href "/favicon.ico" ]
-                                      Html.link [ prop.rel "stylesheet"
-                                                  prop.href "/static/styles/tailwind.css" ] ]
+                                                  prop.href "/favicon.ico" ] ]
                                Html.main [ prop.className [ Style.main ]
                                            prop.children [ Html.h1 [ prop.className [ Style.title ]
                                                                      prop.children [ Html.text "Welcom to "
