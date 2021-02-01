@@ -106,6 +106,16 @@ Target.create
         |> Async.RunSynchronously
         |> ignore)
 
+Target.create "GenConfig" (fun _ -> dotnet "fable tailwind.config.fsx --extension .js" currentDir)
+
+Target.create
+    "UpdateCSS"
+    (fun _ ->
+
+        Yarn.exec
+            "dlx tailwindcss-cli@latest build static/styles/style.css -o static/styles/tailwind.css"
+            (fun w -> { w with WorkingDirectory = currentDir }))
+
 Target.create "All" ignore
 
 "Clean" ==> "Build"

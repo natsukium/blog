@@ -480,3 +480,4 @@ yarn-error.log*
 
 # Tailwind CSS
 /static/styles/tailwind.css
+tailwind.config.js
