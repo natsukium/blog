@@ -9,6 +9,7 @@
     <Compile Include="lib/Markdown.fs" />
     <Compile Include="lib/Posts.fs" />
     <Compile Include="components/Layout.fs" />
+    <Compile Include="components/Card.fs" />
     <Compile Include="pages/blog/index.fs" />
     <Compile Include="pages/blog/[id]/[slug].fs" />
     <Compile Include="pages/index.fs" />
