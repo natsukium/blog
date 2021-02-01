@@ -4,9 +4,11 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="lib/Style.fs" />
     <Compile Include="lib/Next.fs" />
     <Compile Include="lib/Markdown.fs" />
     <Compile Include="lib/Posts.fs" />
+    <Compile Include="components/Layout.fs" />
     <Compile Include="pages/blog/index.fs" />
     <Compile Include="pages/blog/[id]/[slug].fs" />
     <Compile Include="pages/index.fs" />
