@@ -3,7 +3,7 @@
 
 
 Node.Api.``module``.exports <-
-    {| purge = [| "./pages/**/*.js" |]
+    {| purge = [| "./build/**/*.js" |]
        darkMode = false
        theme =
            {| extend =
