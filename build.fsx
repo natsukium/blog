@@ -80,6 +80,11 @@ Target.create
         let yarnDev =
             lazy (Yarn.exec "dev" (fun w -> { w with WorkingDirectory = currentDir }))
 
+        let updateCss () =
+            Yarn.exec
+                "dlx tailwindcss-cli@latest build public/static/styles/style.css -o public/static/styles/tailwind.css"
+                (fun w -> { w with WorkingDirectory = currentDir })
+
         let watch =
             lazy
                 (use watcher =
@@ -94,19 +99,26 @@ Target.create
 
                  watcher.Dispose())
 
-        // if there is not `pages_app.js` at the start, the dev server does not detect it
-        dotnet "fable src -o build" currentDir
-        copy ()
-        resolve ()
+        let watchCss =
+            lazy
+                (use watcher =
+                    !! "public/static/styles/style.css"
+                    |> ChangeWatcher.run (fun _ -> updateCss ())
+
+                 System.Console.ReadLine() |> ignore
+                 watcher.Dispose())
 
         [ async { dotnet cmd currentDir }
           async { yarnDev.Force() }
-          async { watch.Force() } ]
+          async { watch.Force() }
+          async { watchCss.Force() } ]
         |> Async.Parallel
         |> Async.RunSynchronously
         |> ignore)
 
 Target.create "GenConfig" (fun _ -> dotnet "fable tailwind.config.fsx --extension .js" currentDir)
+
+Target.create "SetEnv" (fun _ -> Environment.setEnvironVar "NODE_ENV" "production")
 
 Target.create
     "UpdateCSS"
@@ -116,16 +128,31 @@ Target.create
             "dlx tailwindcss-cli@latest build public/static/styles/style.css -o public/static/styles/tailwind.css"
             (fun w -> { w with WorkingDirectory = currentDir }))
 
+Target.create "PurgeCSS" ignore
+
+Target.create "BuildPage" ignore
+
 Target.create "All" ignore
 
 "Clean" ==> "Build"
 
-"Clean" ==> "Dev"
+"SetEnv" ?=> "UpdateCSS"
+"BuildPage" ?=> "SetEnv"
+"SetEnv" ==> "PurgeCSS"
+"UpdateCSS" ==> "PurgeCSS"
 
 "Clean"
 ==> "Transpile"
 ==> "Copy"
 ==> "Resolve"
+==> "BuildPage"
+
+"Clean" ==> "BuildPage" ==> "Dev"
+"UpdateCSS" ==> "Dev"
+
+"Clean"
+==> "BuildPage"
+==> "PurgeCSS"
 ==> "BuildJS"
 ==> "Export"
 ==> "All"
