@@ -116,6 +116,8 @@ Target.create
         |> Async.RunSynchronously
         |> ignore)
 
+Target.create "Config" (fun _ -> dotnet "fable config.fsx --extension .js" currentDir)
+
 Target.create "GenConfig" (fun _ -> dotnet "fable tailwind.config.fsx --extension .js" currentDir)
 
 Target.create "SetEnv" (fun _ -> Environment.setEnvironVar "NODE_ENV" "production")

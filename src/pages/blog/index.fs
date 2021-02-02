@@ -4,6 +4,7 @@ open Fable.Core.JsInterop
 open Feliz
 
 open Card
+open Config
 open Layout
 open Next
 open Posts
@@ -19,7 +20,8 @@ let getStaticProps () =
 let Posts (props: {| allPostsData: array<obj> |}) =
     Layout
         {| children =
-               [ Html.div [ Html.h1 [ prop.className ""
+               [ Html.div [ Head [ Html.title (Html.text (sprintf "Articles | %s" config.blogTitle)) ]
+                            Html.h1 [ prop.className ""
                                       prop.text "Articles" ]
                             Html.ul [ prop.className ""
                                       prop.children (

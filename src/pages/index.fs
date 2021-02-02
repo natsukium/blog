@@ -4,6 +4,7 @@ open Fable.Core.JsInterop
 open Feliz
 open Zanaptak.TypedCssClasses
 
+open Config
 open Next
 open Style
 
@@ -21,7 +22,7 @@ let Card
 [<ReactComponent>]
 let Home () =
     Html.div [ prop.className [ Style.container ]
-               prop.children [ Head [ Html.title (Html.text "Create Next App with F#")
+               prop.children [ Head [ Html.title (Html.text config.blogTitle)
                                       Html.link [ prop.rel "icon"
                                                   prop.href "/favicon.ico" ] ]
                                Html.main [ prop.className [ Style.main ]
