@@ -1,5 +1,6 @@
 module Next
 
+open Fable.Core
 open Fable.Core.JsInterop
 open Fable.React
 open Feliz
@@ -26,3 +27,26 @@ type Link =
 
 let inline Head props =
     Interop.reactApi.createElement (head, null, props)
+
+[<ImportDefault("next/document")>]
+type Document() =
+    abstract member render: unit -> ReactElement
+    default this.render() = jsNative
+
+// abstract member get: unit -> string
+type Doc =
+    static member inline Head props =
+        let head: obj = import "Head" "next/document"
+        Interop.reactApi.createElement (head, null, props)
+
+    static member inline Html props =
+        let html: obj = import "Html" "next/document"
+        Interop.reactApi.createElement (html, null, props)
+
+    static member inline Main props =
+        let main: obj = import "Main" "next/document"
+        Interop.reactApi.createElement (main, null, props)
+
+    static member inline NextScript props =
+        let nextScript: obj = import "NextScript" "next/document"
+        Interop.reactApi.createElement (nextScript, null, props)

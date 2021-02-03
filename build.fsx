@@ -63,6 +63,12 @@ let copy () =
 
 Target.create "Copy" (fun _ -> copy ())
 
+let modify () =
+    "pages/_document.js"
+    |> Shell.regexReplaceInFileWithEncoding "export class" "export default class" System.Text.Encoding.UTF8
+
+Target.create "ModifyDocumentJS" (fun _ -> modify ())
+
 Target.create "BuildJS" (fun _ -> Yarn.exec "next build" (fun w -> { w with WorkingDirectory = currentDir }))
 
 Target.create "Export" (fun _ -> Yarn.exec "next export" (fun w -> { w with WorkingDirectory = currentDir }))
@@ -93,7 +99,8 @@ Target.create
                         (fun changes ->
                             copy ()
                             printfn "%A" changes
-                            resolve ())
+                            resolve ()
+                            modify ())
 
                  System.Console.ReadLine() |> ignore
 
@@ -147,6 +154,7 @@ Target.create "All" ignore
 ==> "Transpile"
 ==> "Copy"
 ==> "Resolve"
+==> "ModifyDocumentJS"
 ==> "BuildPage"
 
 "Clean" ==> "BuildPage" ==> "Dev"
