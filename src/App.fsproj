@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -10,6 +10,7 @@
     <Compile Include="lib/Markdown.fs" />
     <Compile Include="lib/Posts.fs" />
     <Compile Include="components/Layout.fs" />
+    <Compile Include="components/NavBar.fs" />
     <Compile Include="components/Card.fs" />
     <Compile Include="pages/blog/index.fs" />
     <Compile Include="pages/blog/[id]/[slug].fs" />
