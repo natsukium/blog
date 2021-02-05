@@ -11,6 +11,7 @@
     <Compile Include="lib/Posts.fs" />
     <Compile Include="components/Layout.fs" />
     <Compile Include="components/NavBar.fs" />
+    <Compile Include="components/Footer.fs" />
     <Compile Include="components/Card.fs" />
     <Compile Include="pages/blog/index.fs" />
     <Compile Include="pages/blog/[id]/[slug].fs" />
